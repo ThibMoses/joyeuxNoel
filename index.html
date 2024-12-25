@@ -6,75 +6,101 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Joyeux Noël</title>
    <style>
-        body {
-      margin: 0;
-      overflow: hidden;
-      background: radial-gradient(circle, #002d62, #000);
-      color: white;
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-    }
-
-       #message {
-      font-size: 6vw; /* Ajuste automatiquement en fonction de la largeur de la fenêtre */
-      font-weight: bold;
-      text-shadow: 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f;
-      animation: glow 2s infinite alternate;
-      text-align: center;
-      margin: 0;
-    }
-
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f;
+      body {
+         margin: 0;
+         overflow: hidden;
+         background: radial-gradient(circle, #002d62, #000);
+         color: white;
+         font-family: 'Arial', sans-serif;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+         height: 100vh;
       }
-      to {
-        text-shadow: 0 0 30px #ff0, 0 0 40px #ff0, 0 0 50px #ff0;
-      }
-    }
 
-    #click-message {
-      font-size: 3vw; /* Plus petit que le message principal */
-      color: white;
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    @media (max-width: 768px) {
       #message {
-        font-size: 8vw; /* Plus grand sur les petits écrans */
+         font-size: 6vw;
+         /* Ajuste automatiquement en fonction de la largeur de la fenêtre */
+         font-weight: bold;
+         text-shadow: 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f;
+         animation: glow 2s infinite alternate;
+         text-align: center;
+         margin: 0;
       }
-      #click-message {
-        font-size: 4vw; /* Ajustement pour les écrans étroits */
-      }
-    }
 
-    @media (max-width: 480px) {
-      #message {
-        font-size: 10vw; /* Encore plus grand sur les très petits écrans */
-      }
-      #click-message {
-        font-size: 5vw;
-      }
-    }
+      @keyframes glow {
+         from {
+            text-shadow: 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f;
+         }
 
-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
+         to {
+            text-shadow: 0 0 30px #ff0, 0 0 40px #ff0, 0 0 50px #ff0;
+         }
+      }
+
+      #click-message {
+         font-size: 3vw;
+         /* Plus petit que le message principal */
+         color: white;
+         margin-top: 20px;
+         text-align: center;
+      }
+
+      @media (max-width: 768px) {
+         #message {
+            font-size: 8vw;
+            /* Plus grand sur les petits écrans */
+         }
+
+         #click-message {
+            font-size: 4vw;
+            /* Ajustement pour les écrans étroits */
+         }
+      }
+
+      @media (max-width: 480px) {
+         #message {
+            font-size: 10vw;
+            /* Encore plus grand sur les très petits écrans */
+         }
+
+         #click-message {
+            font-size: 5vw;
+         }
+      }
+
+      canvas {
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         z-index: -1;
+      }
+
+      #permission {
+         margin-top: 20px;
+         padding: 10px 20px;
+         font-size: 1.5em;
+         color: #fff;
+         background-color: #007bff;
+         border: none;
+         border-radius: 5px;
+         cursor: pointer;
+         text-shadow: 0 0 10px #fff;
+         max-width: 75%;
+      }
+
+      #permission:hover {
+         background-color: #0056b3;
+      }
    </style>
 </head>
 
 <body>
    <div id="message">🎄 Joyeux Noël 🎅</div>
+   <button id="permission">Cliquez pour activer la musique 🎶</button>
    <canvas id="canvas"></canvas>
    <audio id="music" loop>
       <source src="./music.mp3" type="audio/mp3">
@@ -83,6 +109,7 @@ canvas {
 
    <script>
       const canvas = document.getElementById('canvas');
+      const permissionButton = document.getElementById('permission');
       const ctx = canvas.getContext('2d');
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -186,6 +213,25 @@ canvas {
             music.pause();
          }
       });
+
+      permissionButton.addEventListener('click', () => {
+         music.play().then(() => {
+            // Cacher le bouton après le démarrage de la musique
+            music.play();
+            permissionButton.style.display = 'none';
+         }).catch(error => {
+            console.error('Erreur lors de la lecture audio :', error);
+            alert("Impossible de lire l'audio. Vérifiez vos paramètres ou réessayez.");
+         });
+      });
+
+      music.addEventListener('pause', () => {
+         permissionButton.style.display = 'block';
+      });
+      music.addEventListener('play', () => {
+         permissionButton.style.display = 'none';
+      });
+
 
       // Redimensionnement
       window.addEventListener('resize', () => {
