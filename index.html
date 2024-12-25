@@ -6,39 +6,70 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Joyeux Noël</title>
    <style>
-      body {
-         margin: 0;
-         overflow: hidden;
-         background: radial-gradient(circle, #002d62, #000);
-         color: white;
-         font-family: 'Arial', sans-serif;
-         text-align: center;
-      }
+        body {
+      margin: 0;
+      overflow: hidden;
+      background: radial-gradient(circle, #002d62, #000);
+      color: white;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+    }
 
+       #message {
+      font-size: 6vw; /* Ajuste automatiquement en fonction de la largeur de la fenêtre */
+      font-weight: bold;
+      text-shadow: 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f;
+      animation: glow 2s infinite alternate;
+      text-align: center;
+      margin: 0;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f;
+      }
+      to {
+        text-shadow: 0 0 30px #ff0, 0 0 40px #ff0, 0 0 50px #ff0;
+      }
+    }
+
+    #click-message {
+      font-size: 3vw; /* Plus petit que le message principal */
+      color: white;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
       #message {
-         font-size: 3em;
-         font-weight: bold;
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
-         text-shadow: 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f;
-         animation: glow 2s infinite alternate;
+        font-size: 8vw; /* Plus grand sur les petits écrans */
       }
-
-      @keyframes glow {
-         from {
-            text-shadow: 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f;
-         }
-
-         to {
-            text-shadow: 0 0 30px #ff0, 0 0 40px #ff0, 0 0 50px #ff0;
-         }
+      #click-message {
+        font-size: 4vw; /* Ajustement pour les écrans étroits */
       }
+    }
 
-      canvas {
-         display: block;
+    @media (max-width: 480px) {
+      #message {
+        font-size: 10vw; /* Encore plus grand sur les très petits écrans */
       }
+      #click-message {
+        font-size: 5vw;
+      }
+    }
+
+canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
    </style>
 </head>
 
